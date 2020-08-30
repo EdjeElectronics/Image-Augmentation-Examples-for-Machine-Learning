@@ -51,15 +51,16 @@ cwd = os.getcwd()
 # This can be tweaked to create a huge variety of image augmentations.
 # See https://github.com/aleju/imgaug for a list of augmentation techniques available.
 seq1 = iaa.Sequential([
-    iaa.Fliplr(0.5),                            # Horizontal flip 50% of images
-    iaa.Crop(percent=(0, 0.10)),                # Crop all images between 0% to 10%
-    iaa.GaussianBlur(sigma=(0, 0.5)),           # Add slight blur to images
-    iaa.Multiply((0.7, 1.3), per_channel=0.2),  # Slightly brighten or darken images
-    iaa.Affine(
-        scale={"x": (0.8, 1.2), "y": (0.8,1.2)},                # Resize image
-        translate_percent={"x": (-0.2, 0.2), "y": (-0.2, 0.2)}, # Translate image
-        rotate=(-20, 20)                                        # Rotate image
-        )
+    iaa.Fliplr(0.5),                             # Horizontal flip 50% of images
+    iaa.Crop(percent=(0, 0.20)),                 # Crop all images between 0% to 20%
+    #iaa.GaussianBlur(sigma=(0, 1)),             # Add slight blur to images
+    #iaa.Multiply((0.7, 1.3), per_channel=0.2)), # Slightly brighten, darken, or recolor images
+##    iaa.Affine(
+##        scale={"x": (0.8, 1.2), "y": (0.8,1.2)},                # Resize image
+##        translate_percent={"x": (-0.1, 0.1), "y": (-0.1, 0.1)}, # Translate image
+##        rotate=(-5, 5),                                         # Rotate image
+##        mode=ia.ALL, cval=(0,255)                               # Filling in extra pixels
+##        )
     ])
 
 #### Function definitions ####
@@ -182,7 +183,7 @@ for img_fn in img_fns:
     xml_fn = img_fn.replace(IMG_EXTENSION,'.xml')
     imgW_xml, imgH_xml, objects = read_annotation_data(xml_fn)
     if ((imgW_xml != imgW) or (imgH_xml != imgH)):
-        print('Warning! Annotation data does not match image data for %s.' % img_fn)
+        print('Warning! Annotation data does not match image data for %s. Skipping image.' % img_fn)
         continue
     im_kps = []
     im_classes = []
@@ -198,13 +199,13 @@ for img_fn in img_fns:
     ia_kps = [ia.Keypoint(x=p[0], y=p[1]) for p in im_kps]
     original_kps = ia.KeypointsOnImage(ia_kps, shape=original_img.shape)
 
-    # Define bounding boxes on original image (used for displaying later if debug == True)
+    # Define bounding boxes on original image (not needed for augmentation, but used for displaying later if debug == True)
     bboxes = []
     for i in range(num_obj):
         obj_kps = im_kps[i*4:(i*4+4)]
         bboxes.append(kps_to_BB(obj_kps,imgW,imgH))
 
-    # Create N new augmented images (N = NUM_AUG_IMAGES), and save them in folder with annotation data
+    # Create new augmented images, and save them in folder with annotation data
     for n in range(NUM_AUG_IMAGES):
 
         # Define new filenames
@@ -231,16 +232,16 @@ for img_fn in img_fns:
 
         # Loop over every object, determine bounding boxes for new KPs, and save annotation data
         for i in range(num_obj):
-            obj_aug_kps = list_kps_aug[i*4:(i*4+4)]
-            obj_bb = kps_to_BB(obj_aug_kps,imgW_aug,imgH_aug)
-            bboxes_aug.append(obj_bb)
+            obj_aug_kps = list_kps_aug[i*4:(i*4+4)] # Augmented keypoints for each object
+            obj_bb = kps_to_BB(obj_aug_kps,imgW_aug,imgH_aug) # Augmented bounding boxes for each object
+            bboxes_aug.append(obj_bb) # List of bounding boxes for each object
             xmin = int(obj_bb[0][0])
             ymin = int(obj_bb[0][1])
             xmax = int(obj_bb[1][0])
             ymax = int(obj_bb[1][1])
             coords = [xmin, ymin, xmax, ymax]
             label = im_classes[i]
-            bboxes_aug_data.append([label, coords])
+            bboxes_aug_data.append([label, coords]) # List of bounding box data for each object (class name and box coordinates)
 
         # Save image and XML files to hard disk
         cv2.imwrite(img_aug_path,img_aug)
@@ -271,5 +272,6 @@ for img_fn in img_fns:
             cv2.imshow('Augmented %d' % n,img_aug_show)
             cv2.waitKey()
 
-cv2.waitKey()
-cv2.destroyAllWindows()
+# If images were displayed, close them at the end of the program
+if debug:
+    cv2.destroyAllWindows()
