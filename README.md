@@ -23,7 +23,9 @@ Expected completion date for repository: 9/4/20
 
 
 ### Augmentation with Keypoints or Bounding Boxes for Object Detection Models
-The augment_with_KPs.py script will go through a folder of images (where each image has a corresponding annotation data file) and create a specified number of augmented images from each original image. A new annotation file will also be created for each augmented image. There are several input arguments:
+The augment_with_KPs.py script will go through a folder of images and create a specified number of augmented images from each original image. Each image must have a corresponding annotation data file in [VOC format](https://gist.github.com/Prasad9/30900b0ef1375cc7385f4d85135fdb44). A new annotation file will also be created for each augmented image.
+
+There are several input arguments:
 
 * `--imgdir` specifies the name of the folder with the images to augment
 
