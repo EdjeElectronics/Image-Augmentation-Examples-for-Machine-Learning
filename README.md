@@ -1,4 +1,9 @@
 # Image-Augmentation-Examples-for-Machine-Learning
+
+<p align="center">
+   <img src="doc/ImgaugExample.PNG" width="600" height="250">
+</p>
+
 The code in this repository shows how to use [imgaug](https://github.com/aleju/imgaug) to create thousands of augmented images for training machine learning models. Image augmentation is a quick way to improve accuracy for an image classification or object detection model without having to manually acquire more training images.
 
 This repository is provided as a reference and example for my talk at the Embedded Vision Summit 2020 conference, [Practical Image Data Augmentation Methods for Training Deep Learning Object Detection Models](https://embeddedvisionsummit.com/2020/session/practical-image-data-augmentation-methods-for-training-deep-learning-object-detection-models/).
@@ -38,7 +43,10 @@ python augment_with_KPs.py --imgdir=Squirrels --labels=BSR_labels.txt --numaugs=
 
 Here's a picture of the image folder before and after running augmentation.
 
-*insert before and after picture here*
+<p align="center">
+   <img src="doc/BeforeAfter.png">
+</p>
+
 
 As another example, here is how to point the script at a folder called "Test", indicate that the image extension is .png, create 5 augmented images per original image, and display every augmented image as they are being augmented.
 
@@ -48,5 +56,8 @@ python augment_with_KPs.py --imgdir=Test --imgext=.png --labels=BSR_labels.txt -
 
 Here is an example of a label file.
 
-*insert label file example here*
+<p align="center">
+   <img src="doc/LabelExample1.png">
+</p>
+
 
