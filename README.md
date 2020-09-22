@@ -19,7 +19,23 @@ This repository is provided as a reference and example for my talk at the Embedd
 
 ## Usage
 ### Basic Augmentation for Image Classification Models
+The augment.py script will go through a folder of images and create a specified number of augmented images from each original image.
 
+These are the input arguments:
+
+* `--imgdir` specifies the name of the folder with the images to augment
+
+* `--imgext` specifies the extension of the images to augment (default is .JPG)
+
+* `--numaugs` specifies the number of augmented images to create from each original image. (default is 5)
+
+* `--debug` should only be used for test purposes. It causes each augmented image to be dispalyed to preview what the augmentations will look like. (default is False)
+
+Here's an example for how to run the script. This will create 5 augmented images from each image in the "Squirrels" folder.
+
+```
+python augment.py --imgdir=Squirrels
+```
 
 ### Augmentation with Keypoints or Bounding Boxes for Object Detection Models
 The augment_with_KPs.py script will go through a folder of images and create a specified number of augmented images from each original image. Each image must have a corresponding annotation data file in [Pascal VOC format](https://gist.github.com/Prasad9/30900b0ef1375cc7385f4d85135fdb44). A new annotation file will also be created for each augmented image.
