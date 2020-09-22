@@ -8,7 +8,6 @@ The code in this repository shows how to use [imgaug](https://github.com/aleju/i
 
 This repository is provided as a reference and example for my talk at the Embedded Vision Summit 2020 conference, [Practical Image Data Augmentation Methods for Training Deep Learning Object Detection Models](https://embeddedvisionsummit.com/2020/session/practical-image-data-augmentation-methods-for-training-deep-learning-object-detection-models/).
 
-Expected completion date for repository: 9/4/20
 
 ## Requirements
 
