@@ -56,7 +56,7 @@ python augment_with_KPs.py --imgdir=Test --imgext=.png --labels=BSR_labels.txt -
 
 Here is an example of a label file.
 
-<p align="center">
+<p align="left">
    <img src="doc/LabelExample1.png">
 </p>
 
