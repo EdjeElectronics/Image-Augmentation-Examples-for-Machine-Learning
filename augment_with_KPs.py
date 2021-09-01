@@ -234,14 +234,15 @@ for img_fn in img_fns:
         for i in range(num_obj):
             obj_aug_kps = list_kps_aug[i*4:(i*4+4)] # Augmented keypoints for each object
             obj_bb = kps_to_BB(obj_aug_kps,imgW_aug,imgH_aug) # Augmented bounding boxes for each object
-            bboxes_aug.append(obj_bb) # List of bounding boxes for each object
-            xmin = int(obj_bb[0][0])
-            ymin = int(obj_bb[0][1])
-            xmax = int(obj_bb[1][0])
-            ymax = int(obj_bb[1][1])
-            coords = [xmin, ymin, xmax, ymax]
-            label = im_classes[i]
-            bboxes_aug_data.append([label, coords]) # List of bounding box data for each object (class name and box coordinates)
+            if obj_bb: # Sometimes the bbox coordinates are invalid and obj_bb is empty, so need to check if obj_bb valid
+                bboxes_aug.append(obj_bb) # List of bounding boxes for each object
+                xmin = int(obj_bb[0][0])
+                ymin = int(obj_bb[0][1])
+                xmax = int(obj_bb[1][0])
+                ymax = int(obj_bb[1][1])
+                coords = [xmin, ymin, xmax, ymax]
+                label = im_classes[i]
+                bboxes_aug_data.append([label, coords]) # List of bounding box data for each object (class name and box coordinates)
 
         # Save image and XML files to hard disk
         cv2.imwrite(img_aug_path,img_aug)
