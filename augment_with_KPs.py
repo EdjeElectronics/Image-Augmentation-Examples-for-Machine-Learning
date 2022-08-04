@@ -42,7 +42,7 @@ LABEL_FN = args.labels
 if not os.path.isfile(LABEL_FN):
     print('%s is not a valid file path.' % LABEL_FN)
     sys.exit(1)
-NUM_AUG_IMAGES = args.numaugs
+NUM_AUG_IMAGES = int(args.numaugs)
 debug = args.debug
 cwd = os.getcwd()
 
